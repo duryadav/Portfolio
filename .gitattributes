@@ -1,2 +1,477 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Durgesh Yadav — Data & Sports Analyst</title>
+<meta name="description" content="Portfolio — Durgesh Yadav. Power BI · Tableau · Python · SQL. Responsive, modern portfolio." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  /* ====== VARIABLES ====== */
+  :root{
+    --bg:#061028;
+    --panel:linear-gradient(180deg,#071027 0%, #081428 100%);
+    --card:#0f1724;
+    --muted:#9aa6b6;
+    --text:#eef4ff;
+    --accent:#6b52ff;
+    --accent-2:#22c55e;
+    --glass:rgba(255,255,255,0.03);
+    --radius:14px;
+    --shadow-lg:0 20px 50px rgba(2,6,23,0.6);
+    --maxw:1200px;
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f8fb;
+    --panel:linear-gradient(180deg,#ffffff 0%, #f6f8fb 100%);
+    --card:#ffffff;
+    --muted:#475569;
+    --text:#071023;
+    --glass:rgba(7,16,35,0.04);
+    --shadow-lg:0 12px 28px rgba(7,16,35,0.06);
+    --accent:#4f46e5;
+    --accent-2:#22c55e;
+  }
+
+  /* ====== RESET ====== */
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 10% 8%, rgba(99,102,241,0.04), transparent 6%), var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  /* ====== LAYOUT ====== */
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:0 20px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-radius:12px;position:sticky;top:12px;z-index:60}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from 140deg,var(--accent),#7c3aed);box-shadow:var(--shadow-lg)}
+  .logo b{font-family:Poppins;color:#fff}
+  nav.main{display:flex;gap:18px;align-items:center}
+  nav.main a{color:var(--muted);font-weight:700;padding:8px 10px;border-radius:10px;transition:all .18s}
+  nav.main a:hover{color:var(--text);background:var(--glass);transform:translateY(-3px)}
+
+  .controls{display:flex;gap:10px;align-items:center}
+  .icon-btn{width:42px;height:42px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);display:grid;place-items:center;background:transparent;cursor:pointer;color:var(--muted)}
+  .download-btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#fff;font-weight:800;border:0;cursor:pointer}
+
+  /* ====== HERO ====== */
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;margin-top:18px}
+  .card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--shadow-lg)}
+  .title{font-family:Poppins;font-size:2rem;margin:0 0 8px}
+  .title .accent{background:linear-gradient(90deg,var(--accent),#7c3aed);-webkit-background-clip:text;color:transparent}
+  .sub{color:var(--muted);line-height:1.6}
+  .hero-buttons{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+  .btn-ghost{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);font-weight:700}
+
+  /* skill tags inside hero */
+  .skill-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tag{padding:8px 12px;border-radius:999px;background:var(--glass);font-weight:700;color:var(--muted);cursor:pointer;transition:transform .18s}
+  .tag:hover{transform:translateY(-4px);color:var(--text)}
+
+  /* profile card */
+  .profile{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .avatar{width:160px;height:160px;border-radius:50%;overflow:hidden;border:4px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01))}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .pname{font-weight:800}
+  .prole{color:var(--muted);margin-top:4px}
+  .skill-badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .badge{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:#dfe8ff}
+
+  /* ====== PROJECTS ====== */
+  .section-title{font-size:1.1rem;font-weight:800;margin-bottom:12px}
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .project-card{padding:16px;border-radius:12px;background:rgba(255,255,255,0.01);cursor:pointer;transition:transform .18s, box-shadow .18s}
+  .project-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(2,6,23,0.45)}
+  .project-meta{color:var(--muted);margin-top:8px}
+
+  /* ====== SKILLS ====== */
+  .skills-grid{display:flex;gap:16px;align-items:flex-start}
+  .skill-list{flex:1;padding:12px;border-radius:12px;background:rgba(255,255,255,0.01)}
+  .skill-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .skill-name{width:180px;font-weight:800}
+  .meter{flex:1;height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
+  .meter > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .9s}
+
+  /* ====== CONTACT STRIP (bottom) ====== */
+  .contact-strip{display:flex;gap:18px;align-items:center;justify-content:space-between;margin-top:26px;padding:18px;border-radius:12px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02);box-shadow:var(--shadow-lg)}
+  .contact-left h3{margin:0;font-weight:800}
+  .contact-left p{margin:6px 0 0;color:var(--muted)}
+  .contact-center{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .pill{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);font-weight:700}
+  .contact-right{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+  .resume-btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#fff;font-weight:800}
+
+  /* ====== MODAL ====== */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:grid;place-items:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+  .modal-backdrop.show{opacity:1;pointer-events:auto}
+  .modal{width:min(880px,95%);background:var(--card);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow-lg);position:relative}
+  .modal h3{margin:0 0 8px}
+  .modal .meta{color:var(--muted);margin-bottom:10px}
+  .modal .close{position:absolute;right:18px;top:18px;background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:18px}
+
+  /* ====== SMALL SCREENS (responsive) ====== */
+  @media (max-width:1000px){
+    .hero{grid-template-columns:1fr}
+    .projects-grid{grid-template-columns:repeat(2,1fr)}
+    .skills-grid{flex-direction:column}
+    .contact-strip{flex-direction:column;align-items:stretch}
+    .contact-right{align-items:flex-start}
+  }
+
+  /* Tablets & Small Laptops (max-width: 992px) */
+  @media (max-width: 992px) {
+    .hero { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { flex-direction: column; }
+    .profile { margin-top: 20px; }
+    .contact-strip { flex-direction: column; align-items: flex-start; text-align: left; }
+    nav.main { display: none; } /* hide desktop nav on small screens (optional) */
+  }
+
+  /* Phones (max-width: 768px) */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 14px; }
+    .title { font-size: 1.7rem; line-height: 1.3; }
+    .hero-buttons { flex-direction: column; width: 100%; }
+    .download-btn, .btn-ghost { width: 100%; text-align: center; }
+    .avatar { width: 130px; height: 130px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skill-name { width: 140px; font-size: 0.95rem; }
+    .pill { width: 100%; justify-content: center; }
+  }
+
+  /* Small Phones (max-width: 480px) */
+  @media (max-width: 480px) {
+    .title { font-size: 1.5rem; }
+    .section-title { font-size: 1rem; }
+    .skill-name { width: 120px; font-size: 0.9rem; }
+    .tag { padding: 6px 10px; font-size: 0.78rem; }
+    .contact-strip h3 { font-size: 1rem; }
+    .contact-strip p { font-size: 0.85rem; }
+    .pill { font-size: 0.8rem; }
+  }
+
+  /* small flourishes */
+  .muted{color:var(--muted)}
+  .fade-up{opacity:0;transform:translateY(10px);transition:opacity .4s, transform .4s}
+  .fade-up.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+  <div class="wrap" id="page">
+
+    <!-- HEADER -->
+    <header class="top">
+      <div class="brand">
+        <div class="logo"><b>DY</b></div>
+        <div>
+          <div style="font-weight:800">Durgesh Yadav</div>
+          <div class="muted">Data Analyst · Sports Analytics · Dashboards</div>
+        </div>
+      </div>
+
+      <nav class="main" aria-label="Main navigation">
+        <a href="#about" data-scroll>About</a>
+        <a href="#case" data-scroll>Case Study</a>
+        <a href="#experience" data-scroll>Experience</a>
+        <a href="#projects" data-scroll>Projects</a>
+        <a href="#skills" data-scroll>Skills</a>
+        <a href="#contact" data-scroll>Contact</a>
+      </nav>
+
+      <div class="controls">
+        <button id="resumeTop" class="download-btn" title="Download Resume">Download Resume</button>
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="about" class="hero fade-up show">
+      <div class="card">
+        <div class="title">Hi — I'm <span class="accent">Durgesh Yadav</span></div>
+        <div class="sub">I design reproducible ETL pipelines, perform exploratory & predictive analysis, and build dashboards used for decisions by coaches and product teams.</div>
+
+        <div class="hero-buttons">
+          <button class="download-btn" id="viewCase">Featured Case Study</button>
+          <button class="btn-ghost" id="viewProjectsBtn">View Projects</button>
+        </div>
+
+        <div class="skill-tags" style="margin-top:14px">
+          <div class="tag" data-skill="Power BI">Power BI</div>
+          <div class="tag" data-skill="Tableau">Tableau</div>
+          <div class="tag" data-skill="Python">Python</div>
+          <div class="tag" data-skill="SQL">SQL</div>
+        </div>
+      </div>
+
+      <aside class="card profile fade-up show">
+        <div class="avatar" aria-hidden="true">
+          <img id="profileImg" alt="Durgesh photo" src="" />
+        </div>
+        <div class="pname">Durgesh Yadav</div>
+        <div class="prole muted">Data & Sports Analyst</div>
+
+        <div class="skill-badges">
+          <div class="badge">Power BI</div>
+          <div class="badge">Tableau</div>
+          <div class="badge">Python</div>
+          <div class="badge" style="background:linear-gradient(90deg,#111827, rgba(99,102,241,0.12));color:#fff;">SQL</div>
+        </div>
+
+        <div style="margin-top:12px;font-size:0.95rem;display:flex;gap:8px">
+          <a class="pill" href="mailto:durgeshyadav1327@gmail.com?subject=Opportunity%20from%20Portfolio">Email</a>
+          <a class="pill" href="tel:+917307689589">Call</a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section id="case" class="fade-up" style="margin-top:22px">
+      <div class="card">
+        <div class="section-title">Featured Case — Player Performance Dashboard</div>
+        <p class="muted"><strong>Problem:</strong> Coaching staff used scattered spreadsheets; insights were slow.</p>
+        <p class="muted"><strong>Action:</strong> ETL pipelines (Python + MySQL), feature engineering (distance, sprints), interactive Power BI dashboard with drill-downs.</p>
+        <p class="muted"><strong>Result:</strong> ~60% less manual prep time; 3× faster coaching decisions; actionable fatigue flags.</p>
+        <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+          <a class="tag" href="#skills" data-skilllink>Power BI · Dashboards & DAX</a>
+          <a class="tag" href="#skills" data-skilllink>Python · pandas, ETL</a>
+          <a class="tag" href="#skills" data-skilllink>SQL · MySQL / Postgres</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="fade-up" style="margin-top:22px">
+      <div class="card">
+        <div class="section-title">Experience</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="font-weight:800">Sports Analyst — Hudl <span class="muted">· Oct 2024 – Present</span></div>
+            <div class="muted">Match-level ETL, dashboards & automation for coaching reviews.</div>
+          </div>
+          <div>
+            <div style="font-weight:800">B.Sc. Information Technology <span class="muted">· 2021 – 2024</span></div>
+            <div class="muted">Thakur Ramnarayan College — CGPI 8.27</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="fade-up" style="margin-top:22px">
+      <div class="section-title">Projects</div>
+      <div class="projects-grid">
+        <div class="project-card" data-project="player">
+          <div style="font-weight:800">Player Performance Dashboard</div>
+          <div class="project-meta muted">Power BI · Python · SQL</div>
+        </div>
+
+        <div class="project-card" data-project="village">
+          <div style="font-weight:800">Village Development System</div>
+          <div class="project-meta muted">Java · MySQL · Web</div>
+        </div>
+
+        <div class="project-card" data-project="restaurant">
+          <div style="font-weight:800">Restaurant Analytics</div>
+          <div class="project-meta muted">Frontend · Analytics</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="fade-up" style="margin-top:22px">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-list card">
+          <div class="skill-row"><div class="skill-name">Python (pandas)</div><div class="meter"><i data-level="88%"></i></div></div>
+          <div class="skill-row"><div class="skill-name">SQL (MySQL/Postgres)</div><div class="meter"><i data-level="90%"></i></div></div>
+          <div class="skill-row"><div class="skill-name">Power BI</div><div class="meter"><i data-level="76%"></i></div></div>
+          <div class="skill-row"><div class="skill-name">Tableau</div><div class="meter"><i data-level="72%"></i></div></div>
+          <div class="skill-row"><div class="skill-name">Excel & Reporting</div><div class="meter"><i data-level="92%"></i></div></div>
+        </div>
+
+        <div class="card" style="width:320px">
+          <div style="font-weight:800">Analytics approach</div>
+          <div class="muted" style="margin-top:8px;line-height:1.5">Reproducible ETL, clear KPI definitions and dashboards that map to stakeholder decisions. Prioritise data quality and maintainability.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT STRIP -->
+    <div id="contact" class="contact-strip fade-up" style="margin-top:28px">
+      <div class="contact-left">
+        <h3>Ready to discuss analytics projects or roles</h3>
+        <p class="muted">Open to Data Analyst, Sports Analytics & Dashboard roles — including opportunities abroad.</p>
+      </div>
+
+      <div class="contact-center">
+        <a class="pill" href="mailto:durgeshyadav1327@gmail.com?subject=Opportunity%20from%20Portfolio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7"/><path d="M3 7l9 6 9-6"/></svg>
+          durgeshyadav1327@gmail.com
+        </a>
+
+        <a class="pill" href="tel:+917307689589">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92V21a1 1 0 0 1-1.11 1A19 19 0 0 1 3 5.11 1 1 0 0 1 4 4h4.09"/></svg>
+          +91 73076 89589
+        </a>
+      </div>
+
+      <div class="contact-right">
+        <button id="resumeBtn" class="resume-btn">Download Resume</button>
+        <div class="muted">LinkedIn: <a href="https://www.linkedin.com/in/durgesh-yadav-42012b242/" target="_blank" rel="noopener" style="color:var(--text);text-decoration:underline">linkedin.com/in/durgeshyadav</a></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:18px 0;color:var(--muted)">© <span id="year"></span> Durgesh Yadav — Built for impact & clarity</div>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close" id="modalClose" title="Close" aria-label="Close">✕</button>
+      <h3 id="modalTitle">Project</h3>
+      <div class="meta muted" id="modalMeta"></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+<script>
+/* ===== CONFIG ===== */
+const RESUME_LINK = '#'; // <-- Replace with your public resume URL (e.g., 'resume.pdf' if uploaded)
+
+/* ===== Avatar load (tries local file path + filename fallbacks) ===== */
+const avatar = document.getElementById('profileImg');
+const candidates = [
+  'file:///C:/Users/durge/Downloads/WhatsApp Image 2025-12-04 at 11.10.04_e110e02c.jpg',
+  'WhatsApp Image 2025-12-04 at 11.10.04_e110e02c.jpg',
+  'WhatsApp%20Image%202025-12-04%20at%2011.10.04_e110e02c.jpg',
+  'photo.jpg',
+  './photo.jpg'
+];
+function tryLoad(i=0){
+  if(i>=candidates.length){ avatar.alt='photo not found'; return; }
+  avatar.src = candidates[i];
+  avatar.onload = ()=>{};
+  avatar.onerror = ()=> tryLoad(i+1);
+}
+tryLoad();
+
+/* ===== Smooth scrolling (nav + links) ===== */
+document.querySelectorAll('[data-scroll]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    const href = a.getAttribute('href') || '#' + a.dataset.scroll;
+    const id = href.replace('#','');
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+document.getElementById('viewProjectsBtn').addEventListener('click', ()=> document.getElementById('projects').scrollIntoView({behavior:'smooth'}));
+document.getElementById('viewCase').addEventListener('click', ()=> document.getElementById('case').scrollIntoView({behavior:'smooth'}));
+
+/* ===== Hero skill tags jump to Skills ===== */
+document.querySelectorAll('.tag[data-skill]').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.getElementById('skills').scrollIntoView({behavior:'smooth', block:'start'});
+    // small highlight
+    const name = t.dataset.skill.toLowerCase();
+    const rows = Array.from(document.querySelectorAll('.skill-name')).filter(s=>s.textContent.toLowerCase().includes(name));
+    if(rows.length) rows[0].parentElement.style.boxShadow = '0 8px 28px rgba(99,102,241,0.08)';
+    setTimeout(()=> rows.forEach(r=> r.parentElement.style.boxShadow = ''), 1300);
+  });
+});
+
+/* ===== Project modal ===== */
+const projects = {
+  player: {
+    title:'Player Performance Dashboard',
+    meta:'Power BI · Python · SQL',
+    body:`<p class="muted"><strong>Summary:</strong> Built ETL + Power BI dashboard used in weekly coaching reviews — KPI cards, match filters and actionable fatigue flags.</p>
+          <p class="muted"><strong>Responsibilities:</strong> Data cleaning, feature engineering, DAX measures & dashboard design.</p>
+          <p class="muted"><strong>Impact:</strong> Reduced manual prep by ~60% and improved decision speed 3×.</p>`
+  },
+  village: {
+    title:'Village Development System',
+    meta:'Java · MySQL · Web',
+    body:`<p class="muted">A web-based system to connect remote villages to services, implemented with Java, JDBC and MySQL.</p>`
+  },
+  restaurant: {
+    title:'Restaurant Analytics',
+    meta:'Frontend · Analytics',
+    body:`<p class="muted">Reservation funnel analysis and dashboards for owners.</p>`
+  }
+};
+const backdrop = document.getElementById('modalBackdrop');
+const modalTitle = document.getElementById('modalTitle');
+const modalMeta = document.getElementById('modalMeta');
+const modalBody = document.getElementById('modalBody');
+function openModal(key){
+  const p = projects[key];
+  if(!p) return;
+  modalTitle.textContent = p.title;
+  modalMeta.innerHTML = p.meta;
+  modalBody.innerHTML = p.body;
+  backdrop.classList.add('show');
+  backdrop.setAttribute('aria-hidden','false');
+}
+function closeModal(){ backdrop.classList.remove('show'); backdrop.setAttribute('aria-hidden','true'); }
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e)=> { if(e.target===backdrop) closeModal(); });
+document.querySelectorAll('.project-card').forEach(card=>{
+  card.addEventListener('click', ()=> openModal(card.dataset.project));
+});
+
+/* ===== animate skill meters ===== */
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.meter > i').forEach(i=>{
+    const lvl = i.getAttribute('data-level') || '60%';
+    setTimeout(()=> i.style.width = lvl, 180);
+  });
+});
+
+/* ===== Theme toggle (icon) ===== */
+const themeIcon = document.getElementById('themeIcon');
+function setThemeIcon(t){
+  themeIcon.innerHTML = t === 'light' ?
+    '<circle cx=\"12\" cy=\"12\" r=\"4\"></circle><path d=\"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41\"/>' :
+    '<path d=\"M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z\"/>';
+}
+const saved = localStorage.getItem('portfolio-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', saved);
+setThemeIcon(saved);
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = cur === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('portfolio-theme', next);
+  setThemeIcon(next);
+});
+
+/* ===== Resume buttons ===== */
+document.getElementById('resumeTop').addEventListener('click', ()=> {
+  if(RESUME_LINK === '#'){ alert('Set RESUME_LINK variable in the HTML to your public resume link.'); return; }
+  window.open(RESUME_LINK,'_blank');
+});
+document.getElementById('resumeBtn').addEventListener('click', ()=> {
+  if(RESUME_LINK === '#'){ alert('Set RESUME_LINK variable in the HTML to your public resume link.'); return; }
+  window.open(RESUME_LINK,'_blank');
+});
+
+/* ===== small reveal animations & set year ===== */
+document.querySelectorAll('.fade-up').forEach((el,i)=> setTimeout(()=> el.classList.add('show'), 80 + i*80));
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
+
